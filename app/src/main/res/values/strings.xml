@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LastFmClean</string>
+    <string name="tab_text_1">Artists</string>
+    <string name="tab_text_2">Albums</string>
+    <string name="tab_text_3">Songs</string>
+    <string name="search_title">Search</string>
+</resources>
