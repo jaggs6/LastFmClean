@@ -13,14 +13,14 @@ import uk.co.mgntech.lastfmclean.R
 /**
  * A placeholder fragment containing a simple view.
  */
-class PlaceholderFragment : Fragment() {
+class SearchFragment : Fragment() {
 
     private val pageViewModel: PageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pageViewModel.apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+            setSearchTerm(arguments?.getString(ARG_SEARCH_QUERY).orEmpty())
         }
     }
 
@@ -41,17 +41,17 @@ class PlaceholderFragment : Fragment() {
          * The fragment argument representing the section number for this
          * fragment.
          */
-        private const val ARG_SECTION_NUMBER = "section_number"
+        private const val ARG_SEARCH_QUERY = "search_query"
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): PlaceholderFragment {
-            return PlaceholderFragment().apply {
+        fun newInstance(searchQuery: String): SearchFragment {
+            return SearchFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
+                    putString(ARG_SEARCH_QUERY, searchQuery)
                 }
             }
         }

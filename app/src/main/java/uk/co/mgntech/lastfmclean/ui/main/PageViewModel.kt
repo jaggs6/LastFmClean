@@ -7,12 +7,12 @@ import androidx.lifecycle.ViewModel
 
 class PageViewModel : ViewModel() {
 
-    private val _index = MutableLiveData<Int>()
-    val text: LiveData<String> = Transformations.map(_index) {
+    private val _searchTerm = MutableLiveData<String>()
+    val text: LiveData<String> = Transformations.map(_searchTerm) {
         "Hello world from section: $it"
     }
 
-    fun setIndex(index: Int) {
-        _index.value = index
+    fun setSearchTerm(searchTerm: String) {
+        _searchTerm.value = searchTerm
     }
 }
