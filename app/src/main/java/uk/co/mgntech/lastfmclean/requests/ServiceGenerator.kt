@@ -11,10 +11,9 @@ class ServiceGenerator {
             Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+
         private val retrofit = retrofitBuilder.build()
 
-        private val lastFMApi = retrofit.create(LastFMApi::class.java)
-
-        fun getLastFMApi(): LastFMApi = lastFMApi
+        val lastFMApi: LastFMApi = retrofit.create(LastFMApi::class.java)
     }
 }
