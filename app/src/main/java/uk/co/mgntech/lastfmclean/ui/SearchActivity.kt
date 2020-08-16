@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.mgntech.lastfmclean.R
+import uk.co.mgntech.lastfmclean.utils.hideKeyboard
 
 class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -36,6 +37,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        hideKeyboard()
         searchViewModel.apply {
             setSearchTerm(query.orEmpty())
         }

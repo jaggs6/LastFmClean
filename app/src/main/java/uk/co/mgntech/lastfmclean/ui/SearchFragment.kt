@@ -42,13 +42,13 @@ class SearchFragment : Fragment() {
         when (sectionNumber) {
             0 -> searchViewModel.artists()
                 .observe(viewLifecycleOwner, Observer<List<Artist>> {
-                    section_label.text = (it.map { artist -> artist.name }).toString()
+                    section_label.text = (it.map { artist -> artist.name }).joinToString(separator = "\n")
                 })
             1 -> searchViewModel.albums().observe(viewLifecycleOwner, Observer<List<Album>> {
-                section_label.text = (it.map { album -> album.name }).toString()
+                section_label.text = (it.map { album -> album.name }).joinToString(separator = "\n")
             })
             2 -> searchViewModel.songs().observe(viewLifecycleOwner, Observer<List<Song>> {
-                section_label.text = (it.map { song -> song.name }).toString()
+                section_label.text = (it.map { song -> song.name }).joinToString(separator = "\n")
             })
         }
 
