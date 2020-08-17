@@ -17,5 +17,8 @@ class SearchViewModel : ViewModel() {
         _repository.searchArtistsApi(searchTerm, 1)
         _repository.searchAlbumsApi(searchTerm, 1)
         _repository.searchSongsApi(searchTerm, 1)
+//        _repository.searchArtistsApi(searchTerm, 2)
+//        _repository.searchAlbumsApi(searchTerm, 2)
+//        _repository.searchSongsApi(searchTerm, 2)
     }
 }

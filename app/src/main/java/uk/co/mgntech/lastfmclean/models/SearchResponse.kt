@@ -6,17 +6,11 @@ data class SearchResultsResponse(
     @SerializedName("results")
     private val results: SearchResults
 ) {
-    fun artists(): List<Artist>? {
-        return results.artistMatches?.artists
-    }
+    fun artists(): List<Artist>? = results.artistMatches?.artists
 
-    fun albums(): List<Album>? {
-        return results.albumMatches?.albums
-    }
+    fun albums(): List<Album>? = results.albumMatches?.albums
 
-    fun songs(): List<Song>? {
-        return results.songMatches?.songs
-    }
+    fun songs(): List<Song>? = results.songMatches?.songs
 }
 
 data class SearchResults(
