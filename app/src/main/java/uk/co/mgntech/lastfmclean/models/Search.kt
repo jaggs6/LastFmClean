@@ -2,13 +2,13 @@ package uk.co.mgntech.lastfmclean.models
 
 import com.google.gson.annotations.SerializedName
 
-data class Album(
+data class Search(
     @SerializedName("name")
     val name: String,
     @SerializedName("artist")
-    val artist: String,
+    val artist: String?,
     @SerializedName("listeners")
-    val listeners: String,
+    val listeners: String?,
     @SerializedName("image")
     private val images: List<Image>
 ) {

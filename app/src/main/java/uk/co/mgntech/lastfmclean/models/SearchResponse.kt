@@ -6,11 +6,14 @@ data class SearchResultsResponse(
     @SerializedName("results")
     private val results: SearchResults
 ) {
-    fun artists(): List<Artist>? = results.artistMatches?.artists
-
-    fun albums(): List<Album>? = results.albumMatches?.albums
-
-    fun songs(): List<Song>? = results.songMatches?.songs
+    fun results(): List<Search>? {
+        return when {
+            results.albumMatches != null -> return results.albumMatches.results
+            results.artistMatches != null -> return results.artistMatches.results
+            results.songMatches != null -> return results.songMatches.results
+            else -> null
+        }
+    }
 }
 
 data class SearchResults(
@@ -24,15 +27,15 @@ data class SearchResults(
 
 data class ArtistMatches(
     @SerializedName("artist")
-    val artists: List<Artist>
+    val results: List<Search>
 )
 
 data class AlbumMatches(
     @SerializedName("album")
-    val albums: List<Album>
+    val results: List<Search>
 )
 
 data class SongMatches(
     @SerializedName("track")
-    val songs: List<Song>
+    val results: List<Search>
 )

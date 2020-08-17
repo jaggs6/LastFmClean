@@ -7,8 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_search.*
 import uk.co.mgntech.lastfmclean.R
-import uk.co.mgntech.lastfmclean.adapters.SectionsPagerAdapter
-import uk.co.mgntech.lastfmclean.utils.hideKeyboard
+import uk.co.mgntech.lastfmclean.adapters.SearchPagerAdapter
 
 class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
@@ -18,13 +17,13 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         private const val TAG = "SearchActivity"
     }
 
-    private lateinit var sectionsPagerAdapter: SectionsPagerAdapter
+    private lateinit var sectionsPagerAdapter: SearchPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         sectionsPagerAdapter =
-            SectionsPagerAdapter(
+            SearchPagerAdapter(
                 this,
                 supportFragmentManager
             )
@@ -39,7 +38,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        hideKeyboard()
+        search_view.clearFocus()
         searchViewModel.apply {
             setSearchTerm(query.orEmpty())
         }

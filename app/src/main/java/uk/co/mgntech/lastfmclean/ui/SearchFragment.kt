@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,17 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
 import uk.co.mgntech.lastfmclean.R
 import uk.co.mgntech.lastfmclean.adapters.OnSearchListener
-import uk.co.mgntech.lastfmclean.adapters.SearchAlbumRecyclerAdapter
-import uk.co.mgntech.lastfmclean.adapters.SearchArtistRecyclerAdapter
-import uk.co.mgntech.lastfmclean.adapters.SearchSongRecyclerAdapter
+import uk.co.mgntech.lastfmclean.adapters.SearchRecyclerAdapter
+import uk.co.mgntech.lastfmclean.models.Search
+import uk.co.mgntech.lastfmclean.models.SearchType
 
 class SearchFragment : Fragment(), OnSearchListener {
 
-    private var sectionNumber: Int? = null
+    private var searchType: SearchType? = null
     private lateinit var searchViewModel: SearchViewModel
-    private lateinit var artistRecyclerAdapter: SearchArtistRecyclerAdapter
-    private lateinit var albumRecyclerAdapter: SearchAlbumRecyclerAdapter
-    private lateinit var songRecyclerAdapter: SearchSongRecyclerAdapter
+    private lateinit var recyclerAdapter: SearchRecyclerAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -32,7 +31,8 @@ class SearchFragment : Fragment(), OnSearchListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sectionNumber = arguments?.getInt(ARG_SECTION_NUMBER)
+        searchType =
+            SearchType.values().find { it.value == arguments?.getInt(ARG_SEARCH_TYPE_VALUE) }
     }
 
     override fun onCreateView(
@@ -43,38 +43,27 @@ class SearchFragment : Fragment(), OnSearchListener {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
         initRecyclerView(root)
         searchViewModel.apply {
-            when (sectionNumber) {
-                0 -> {
-                    albums().observe(viewLifecycleOwner, Observer {
-                        if (it != null) {
-                            albumRecyclerAdapter.albumList = it
-                        }
-                    })
-                    albumsLoading().observe(viewLifecycleOwner, Observer { loading ->
-                        pb_search.visibility = if (loading) View.VISIBLE else View.GONE
-                    })
-                }
-                1 -> {
-                    artists().observe(viewLifecycleOwner, Observer {
-                        if (it != null) {
-                            artistRecyclerAdapter.artistList = it
-                        }
-                    })
-                    artistsLoading().observe(viewLifecycleOwner, Observer { loading ->
-                        pb_search.visibility = if (loading) View.VISIBLE else View.GONE
-                    })
-                }
-                2 -> {
-                    songs().observe(viewLifecycleOwner, Observer {
-                        if (it != null) {
-                            songRecyclerAdapter.songList = it
-                        }
-                    })
-                    songsLoading().observe(viewLifecycleOwner, Observer { loading ->
-                        pb_search.visibility = if (loading) View.VISIBLE else View.GONE
-                    })
-                }
+            val results: LiveData<List<Search>> = when (searchType) {
+                SearchType.ALBUMS -> albums()
+                SearchType.ARTISTS -> artists()
+                SearchType.SONGS -> songs()
+                null -> TODO("Implement new type properly")
             }
+            val loading: LiveData<Boolean> = when (searchType) {
+                SearchType.ALBUMS -> albumsLoading()
+                SearchType.ARTISTS -> artistsLoading()
+                SearchType.SONGS -> songsLoading()
+                null -> TODO("Implement new type properly")
+            }
+
+            results.observe(viewLifecycleOwner, Observer {
+                if (it != null) {
+                    recyclerAdapter.searchResultsList = it
+                }
+            })
+            loading.observe(viewLifecycleOwner, Observer {
+                pb_search.visibility = if (it) View.VISIBLE else View.GONE
+            })
         }
 
         return root
@@ -82,33 +71,21 @@ class SearchFragment : Fragment(), OnSearchListener {
 
     private fun initRecyclerView(root: View) {
         val rv = root.findViewById<RecyclerView>(R.id.rv_search_results)
-        when (sectionNumber) {
-            0 -> {
-                albumRecyclerAdapter = SearchAlbumRecyclerAdapter(this)
-                rv.adapter = albumRecyclerAdapter
-            }
-            1 -> {
-                artistRecyclerAdapter = SearchArtistRecyclerAdapter(this)
-                rv.adapter = artistRecyclerAdapter
-            }
-            2 -> {
-                songRecyclerAdapter = SearchSongRecyclerAdapter(this)
-                rv.adapter = songRecyclerAdapter
-            }
-        }
+        recyclerAdapter = SearchRecyclerAdapter(this)
+        rv.adapter = recyclerAdapter
         rv.layoutManager =
             GridLayoutManager(context, resources.getInteger(R.integer.search_span_count))
     }
 
     companion object {
 
-        private const val ARG_SECTION_NUMBER = "section_number"
+        private const val ARG_SEARCH_TYPE_VALUE = "search_type_valuex"
 
         @JvmStatic
-        fun newInstance(position: Int): SearchFragment {
+        fun newInstance(type: Int): SearchFragment {
             return SearchFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, position)
+                    putInt(ARG_SEARCH_TYPE_VALUE, type)
                 }
             }
         }

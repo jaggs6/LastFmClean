@@ -1,6 +1,7 @@
 package uk.co.mgntech.lastfmclean.ui
 
 import androidx.lifecycle.ViewModel
+import uk.co.mgntech.lastfmclean.models.SearchType
 import uk.co.mgntech.lastfmclean.repositories.SearchRepository
 
 class SearchViewModel : ViewModel() {
@@ -16,11 +17,8 @@ class SearchViewModel : ViewModel() {
     fun songs() = _repository.songs()
 
     fun setSearchTerm(searchTerm: String) {
-        _repository.searchArtistsApi(searchTerm, 1)
-        _repository.searchAlbumsApi(searchTerm, 1)
-        _repository.searchSongsApi(searchTerm, 1)
-//        _repository.searchArtistsApi(searchTerm, 2)
-//        _repository.searchAlbumsApi(searchTerm, 2)
-//        _repository.searchSongsApi(searchTerm, 2)
+        _repository.searchApi(searchTerm, SearchType.ALBUMS, 1)
+        _repository.searchApi(searchTerm, SearchType.ARTISTS, 1)
+        _repository.searchApi(searchTerm, SearchType.SONGS, 1)
     }
 }
