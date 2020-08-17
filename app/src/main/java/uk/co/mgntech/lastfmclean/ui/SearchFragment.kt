@@ -10,14 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_search.*
 import uk.co.mgntech.lastfmclean.R
 import uk.co.mgntech.lastfmclean.adapters.OnSearchListener
 import uk.co.mgntech.lastfmclean.adapters.SearchAlbumRecyclerAdapter
 import uk.co.mgntech.lastfmclean.adapters.SearchArtistRecyclerAdapter
 import uk.co.mgntech.lastfmclean.adapters.SearchSongRecyclerAdapter
-import uk.co.mgntech.lastfmclean.models.Album
-import uk.co.mgntech.lastfmclean.models.Artist
-import uk.co.mgntech.lastfmclean.models.Song
 
 class SearchFragment : Fragment(), OnSearchListener {
 
@@ -44,22 +42,39 @@ class SearchFragment : Fragment(), OnSearchListener {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
         initRecyclerView(root)
-        when (sectionNumber) {
-            0 -> searchViewModel.artists().observe(viewLifecycleOwner, Observer<List<Artist>> {
-                if (it != null) {
-                    artistRecyclerAdapter.artistList = it
+        searchViewModel.apply {
+            when (sectionNumber) {
+                0 -> {
+                    albums().observe(viewLifecycleOwner, Observer {
+                        if (it != null) {
+                            albumRecyclerAdapter.albumList = it
+                        }
+                    })
+                    albumsLoading().observe(viewLifecycleOwner, Observer { loading ->
+                        pb_search.visibility = if (loading) View.VISIBLE else View.GONE
+                    })
                 }
-            })
-            1 -> searchViewModel.albums().observe(viewLifecycleOwner, Observer<List<Album>> {
-                if (it != null) {
-                    albumRecyclerAdapter.albumList = it
+                1 -> {
+                    artists().observe(viewLifecycleOwner, Observer {
+                        if (it != null) {
+                            artistRecyclerAdapter.artistList = it
+                        }
+                    })
+                    artistsLoading().observe(viewLifecycleOwner, Observer { loading ->
+                        pb_search.visibility = if (loading) View.VISIBLE else View.GONE
+                    })
                 }
-            })
-            2 -> searchViewModel.songs().observe(viewLifecycleOwner, Observer<List<Song>> {
-                if (it != null) {
-                    songRecyclerAdapter.songList = it
+                2 -> {
+                    songs().observe(viewLifecycleOwner, Observer {
+                        if (it != null) {
+                            songRecyclerAdapter.songList = it
+                        }
+                    })
+                    songsLoading().observe(viewLifecycleOwner, Observer { loading ->
+                        pb_search.visibility = if (loading) View.VISIBLE else View.GONE
+                    })
                 }
-            })
+            }
         }
 
         return root
@@ -69,12 +84,12 @@ class SearchFragment : Fragment(), OnSearchListener {
         val rv = root.findViewById<RecyclerView>(R.id.rv_search_results)
         when (sectionNumber) {
             0 -> {
-                artistRecyclerAdapter = SearchArtistRecyclerAdapter(this)
-                rv.adapter = artistRecyclerAdapter
-            }
-            1 -> {
                 albumRecyclerAdapter = SearchAlbumRecyclerAdapter(this)
                 rv.adapter = albumRecyclerAdapter
+            }
+            1 -> {
+                artistRecyclerAdapter = SearchArtistRecyclerAdapter(this)
+                rv.adapter = artistRecyclerAdapter
             }
             2 -> {
                 songRecyclerAdapter = SearchSongRecyclerAdapter(this)

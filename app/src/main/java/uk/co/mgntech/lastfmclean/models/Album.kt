@@ -10,13 +10,9 @@ data class Album(
     @SerializedName("listeners")
     val listeners: String,
     @SerializedName("image")
-    private val image: List<Image>
+    private val images: List<Image>
 ) {
-    fun imageSmall(): String? {
-        return image.findLast { it.size == "small" }?.url
-    }
-
     fun imageLarge(): String? {
-        return image.findLast { it.size == "large" }?.url
+        return images.findLast { it.size == "large" }?.url
     }
 }

@@ -16,6 +16,10 @@ class SearchApiClient {
         val instance = SearchApiClient()
     }
 
+    val artistsLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val albumsLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val songsLoading: MutableLiveData<Boolean> = MutableLiveData()
+
     val artists: MutableLiveData<List<Artist>> = MutableLiveData()
     val albums: MutableLiveData<List<Album>> = MutableLiveData()
     val songs: MutableLiveData<List<Song>> = MutableLiveData()
@@ -27,6 +31,7 @@ class SearchApiClient {
         AppExecutors.instance.networkIO.schedule({
             // TODO: show user timed out
             handler.cancel(true)
+            artistsLoading.postValue(false)
         }, Constants.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
     }
 
@@ -37,6 +42,7 @@ class SearchApiClient {
         AppExecutors.instance.networkIO.schedule({
             // TODO: show user timed out
             handler.cancel(true)
+            albumsLoading.postValue(false)
         }, Constants.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
     }
 
@@ -47,6 +53,7 @@ class SearchApiClient {
         AppExecutors.instance.networkIO.schedule({
             // TODO: show user timed out
             handler.cancel(true)
+            songsLoading.postValue(false)
         }, Constants.NETWORK_TIMEOUT, TimeUnit.MILLISECONDS)
     }
 
@@ -58,6 +65,7 @@ class SearchApiClient {
         var cancelRequest: Boolean = false
 
         override fun run() {
+            instance.artistsLoading.postValue(true)
             try {
                 val response = ServiceGenerator.lastFMApi.searchArtist(artist, pageNumber).execute()
                 if (cancelRequest) {
@@ -76,6 +84,7 @@ class SearchApiClient {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+            instance.artistsLoading.postValue(false)
         }
 
         companion object {
@@ -91,6 +100,7 @@ class SearchApiClient {
         var cancelRequest: Boolean = false
 
         override fun run() {
+            instance.albumsLoading.postValue(true)
             try {
                 val response = ServiceGenerator.lastFMApi.searchAlbum(album, pageNumber).execute()
                 if (cancelRequest) {
@@ -109,6 +119,7 @@ class SearchApiClient {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+            instance.albumsLoading.postValue(false)
         }
 
         companion object {
@@ -124,6 +135,7 @@ class SearchApiClient {
         var cancelRequest: Boolean = false
 
         override fun run() {
+            instance.songsLoading.postValue(true)
             try {
                 val response = ServiceGenerator.lastFMApi.searchSong(song, pageNumber).execute()
                 if (cancelRequest) {
@@ -142,6 +154,7 @@ class SearchApiClient {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+            instance.songsLoading.postValue(false)
         }
 
         companion object {

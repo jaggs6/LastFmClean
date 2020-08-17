@@ -10,10 +10,6 @@ data class Artist(
     @SerializedName("image")
     private val images: List<Image>
 ) {
-    fun imageSmall(): String? {
-        return images.find { it.size == "small" }?.url
-    }
-
     fun imageLarge(): String? {
         return images.find { it.size == "large" }?.url
     }

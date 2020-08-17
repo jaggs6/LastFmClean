@@ -7,10 +7,12 @@ class SearchViewModel : ViewModel() {
 
     private val _repository = SearchRepository.instance
 
+    fun artistsLoading() = _repository.artistsLoading()
+    fun albumsLoading() = _repository.albumsLoading()
+    fun songsLoading() = _repository.songsLoading()
+
     fun artists() = _repository.artists()
-
     fun albums() = _repository.albums()
-
     fun songs() = _repository.songs()
 
     fun setSearchTerm(searchTerm: String) {

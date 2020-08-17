@@ -33,7 +33,7 @@ class SearchAlbumRecyclerAdapter(
         val itemView = (holder as SearchViewHolder).itemView
 
         Glide.with(itemView)
-            .load(albumList[position].imageSmall())
+            .load(albumList[position].imageLarge())
             .into(itemView.findViewById(R.id.cv_image))
 
         itemView.findViewById<TextView>(R.id.cv_text_name).text =

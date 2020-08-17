@@ -10,6 +10,10 @@ class SearchRepository {
 
     private val _apiClient = SearchApiClient.instance
 
+    fun artistsLoading(): LiveData<Boolean> = _apiClient.artistsLoading
+    fun albumsLoading(): LiveData<Boolean> = _apiClient.albumsLoading
+    fun songsLoading(): LiveData<Boolean> = _apiClient.songsLoading
+
     fun albums(): LiveData<List<Album>> = _apiClient.albums
     fun songs(): LiveData<List<Song>> = _apiClient.songs
     fun artists(): LiveData<List<Artist>> = _apiClient.artists
