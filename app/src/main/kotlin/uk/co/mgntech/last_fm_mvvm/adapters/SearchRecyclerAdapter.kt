@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean.adapters
+package uk.co.mgntech.last_fm_mvvm.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import uk.co.mgntech.lastfmclean.R
-import uk.co.mgntech.lastfmclean.models.Search
+import uk.co.mgntech.last_fm_mvvm.R
+import uk.co.mgntech.last_fm_mvvm.models.Search
 
 class SearchRecyclerAdapter(
     private val onSearchListener: OnSearchListener

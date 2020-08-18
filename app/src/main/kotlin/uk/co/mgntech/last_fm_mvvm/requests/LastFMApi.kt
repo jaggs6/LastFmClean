@@ -1,10 +1,10 @@
-package uk.co.mgntech.lastfmclean.requests
+package uk.co.mgntech.last_fm_mvvm.requests
 
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
-import uk.co.mgntech.lastfmclean.models.SearchResultsResponse
-import uk.co.mgntech.lastfmclean.utils.Constants
+import uk.co.mgntech.last_fm_mvvm.models.SearchResultsResponse
+import uk.co.mgntech.last_fm_mvvm.utils.Constants
 
 interface LastFMApi {
 

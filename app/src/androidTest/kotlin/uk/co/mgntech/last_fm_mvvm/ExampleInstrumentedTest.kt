@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean
+package uk.co.mgntech.last_fm_mvvm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("uk.co.mgntech.lastfmclean", appContext.packageName)
+        assertEquals("uk.co.mgntech.last_fm_mvvm", appContext.packageName)
     }
 }

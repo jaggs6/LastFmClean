@@ -1,8 +1,8 @@
-package uk.co.mgntech.lastfmclean.ui
+package uk.co.mgntech.last_fm_mvvm.ui
 
 import androidx.lifecycle.ViewModel
-import uk.co.mgntech.lastfmclean.models.SearchType
-import uk.co.mgntech.lastfmclean.repositories.SearchRepository
+import uk.co.mgntech.last_fm_mvvm.models.SearchType
+import uk.co.mgntech.last_fm_mvvm.repositories.SearchRepository
 
 class SearchViewModel : ViewModel() {
 

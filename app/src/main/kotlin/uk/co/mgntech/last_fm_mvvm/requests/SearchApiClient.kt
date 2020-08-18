@@ -1,11 +1,11 @@
-package uk.co.mgntech.lastfmclean.requests
+package uk.co.mgntech.last_fm_mvvm.requests
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import java.io.IOException
-import uk.co.mgntech.lastfmclean.AppExecutors
-import uk.co.mgntech.lastfmclean.models.Search
-import uk.co.mgntech.lastfmclean.models.SearchType
+import uk.co.mgntech.last_fm_mvvm.AppExecutors
+import uk.co.mgntech.last_fm_mvvm.models.Search
+import uk.co.mgntech.last_fm_mvvm.models.SearchType
 
 class SearchApiClient {
 

@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean
+package uk.co.mgntech.last_fm_mvvm
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

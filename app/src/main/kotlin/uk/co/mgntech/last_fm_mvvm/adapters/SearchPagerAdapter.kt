@@ -1,11 +1,11 @@
-package uk.co.mgntech.lastfmclean.adapters
+package uk.co.mgntech.last_fm_mvvm.adapters
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import uk.co.mgntech.lastfmclean.models.SearchType
-import uk.co.mgntech.lastfmclean.ui.SearchFragment
+import uk.co.mgntech.last_fm_mvvm.models.SearchType
+import uk.co.mgntech.last_fm_mvvm.ui.SearchFragment
 
 class SearchPagerAdapter(private val context: Context, fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean.ui
+package uk.co.mgntech.last_fm_mvvm.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_search.*
-import uk.co.mgntech.lastfmclean.R
-import uk.co.mgntech.lastfmclean.adapters.SearchPagerAdapter
+import uk.co.mgntech.last_fm_mvvm.R
+import uk.co.mgntech.last_fm_mvvm.adapters.SearchPagerAdapter
 
 class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 

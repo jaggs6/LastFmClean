@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean.ui
+package uk.co.mgntech.last_fm_mvvm.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -12,11 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
-import uk.co.mgntech.lastfmclean.R
-import uk.co.mgntech.lastfmclean.adapters.OnSearchListener
-import uk.co.mgntech.lastfmclean.adapters.SearchRecyclerAdapter
-import uk.co.mgntech.lastfmclean.models.Search
-import uk.co.mgntech.lastfmclean.models.SearchType
+import uk.co.mgntech.last_fm_mvvm.R
+import uk.co.mgntech.last_fm_mvvm.adapters.OnSearchListener
+import uk.co.mgntech.last_fm_mvvm.adapters.SearchRecyclerAdapter
+import uk.co.mgntech.last_fm_mvvm.models.Search
+import uk.co.mgntech.last_fm_mvvm.models.SearchType
 
 class SearchFragment : Fragment(), OnSearchListener {
 

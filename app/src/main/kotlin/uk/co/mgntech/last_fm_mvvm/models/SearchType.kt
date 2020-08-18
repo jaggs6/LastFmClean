@@ -1,6 +1,6 @@
-package uk.co.mgntech.lastfmclean.models
+package uk.co.mgntech.last_fm_mvvm.models
 
-import uk.co.mgntech.lastfmclean.R
+import uk.co.mgntech.last_fm_mvvm.R
 
 enum class SearchType(val value: Int) {
     ALBUMS(R.string.tab_text_1),

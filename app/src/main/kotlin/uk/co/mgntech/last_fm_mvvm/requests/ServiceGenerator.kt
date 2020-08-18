@@ -1,8 +1,8 @@
-package uk.co.mgntech.lastfmclean.requests
+package uk.co.mgntech.last_fm_mvvm.requests
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import uk.co.mgntech.lastfmclean.utils.Constants
+import uk.co.mgntech.last_fm_mvvm.utils.Constants
 
 class ServiceGenerator {
 

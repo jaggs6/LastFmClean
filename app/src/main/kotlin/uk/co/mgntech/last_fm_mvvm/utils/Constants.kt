@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean.utils
+package uk.co.mgntech.last_fm_mvvm.utils
 
 class Constants {
     companion object {

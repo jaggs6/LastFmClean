@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean.models
+package uk.co.mgntech.last_fm_mvvm.models
 
 import com.google.gson.annotations.SerializedName
 

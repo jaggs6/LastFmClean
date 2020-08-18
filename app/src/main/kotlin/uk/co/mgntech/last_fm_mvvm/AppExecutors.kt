@@ -1,4 +1,4 @@
-package uk.co.mgntech.lastfmclean
+package uk.co.mgntech.last_fm_mvvm
 
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService

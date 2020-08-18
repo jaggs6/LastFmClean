@@ -1,9 +1,9 @@
-package uk.co.mgntech.lastfmclean.repositories
+package uk.co.mgntech.last_fm_mvvm.repositories
 
 import androidx.lifecycle.LiveData
-import uk.co.mgntech.lastfmclean.models.Search
-import uk.co.mgntech.lastfmclean.models.SearchType
-import uk.co.mgntech.lastfmclean.requests.SearchApiClient
+import uk.co.mgntech.last_fm_mvvm.models.Search
+import uk.co.mgntech.last_fm_mvvm.models.SearchType
+import uk.co.mgntech.last_fm_mvvm.requests.SearchApiClient
 
 class SearchRepository {
 
