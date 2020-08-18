@@ -3,6 +3,7 @@ package uk.co.mgntech.last_fm_mvvm.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.GenericTransitionOptions
@@ -15,7 +16,7 @@ class SearchRecyclerAdapter(
     private val onSearchListener: OnSearchListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var searchResultsList: List<Search> = listOf()
+    var list: List<Search> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -28,29 +29,31 @@ class SearchRecyclerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return searchResultsList.size
+        return list.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemView = (holder as SearchViewHolder).itemView
 
+        val image = itemView.findViewById<ImageView>(R.id.cv_image)
         Glide.with(itemView)
             .applyDefaultRequestOptions(RequestOptions().placeholder(R.drawable.ic_baseline_radio_24))
-            .load(searchResultsList[position].imageLarge())
+            .load(list[position].imageLarge())
             .transition(GenericTransitionOptions.with(android.R.anim.fade_in))
-            .into(itemView.findViewById(R.id.cv_image))
+            .into(image)
+        image.contentDescription = list[position].name
 
         itemView.findViewById<TextView>(R.id.cv_text_name).text =
-            searchResultsList[position].name
+            list[position].name
 
-        searchResultsList[position].artist?.let {
+        list[position].artist?.let {
             val additionalTextView = itemView.findViewById<TextView>(R.id.cv_text_additional_name)
             additionalTextView.visibility = View.VISIBLE
             additionalTextView.text =
                 itemView.context.getString(R.string.microphone).plus(it)
         }
 
-        searchResultsList[position].listeners?.let {
+        list[position].listeners?.let {
             val listenersTextView = itemView.findViewById<TextView>(R.id.cv_text_listeners)
             listenersTextView.visibility = View.VISIBLE
             listenersTextView.text =

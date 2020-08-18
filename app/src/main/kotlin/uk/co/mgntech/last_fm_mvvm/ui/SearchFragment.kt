@@ -58,7 +58,7 @@ class SearchFragment : Fragment(), OnSearchListener {
 
             results.observe(viewLifecycleOwner, Observer {
                 if (it != null) {
-                    recyclerAdapter.searchResultsList = it
+                    recyclerAdapter.list = it
                 }
             })
             loading.observe(viewLifecycleOwner, Observer {
