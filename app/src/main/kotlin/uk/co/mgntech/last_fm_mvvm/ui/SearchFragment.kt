@@ -1,6 +1,7 @@
 package uk.co.mgntech.last_fm_mvvm.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,7 @@ class SearchFragment : Fragment(), OnSearchListener {
                 }
             })
             loading.observe(viewLifecycleOwner, Observer {
+                empty_search.visibility = View.GONE
                 pb_search.visibility = if (it) View.VISIBLE else View.GONE
             })
         }
@@ -91,7 +93,21 @@ class SearchFragment : Fragment(), OnSearchListener {
         }
     }
 
-    override fun onSearchClick(position: Int) {
-        TODO("Not yet implemented")
+    override fun onSearchResultClick(position: Int) {
+
+        val intent = Intent(context, InfoActivity::class.java)
+
+        searchViewModel.apply {
+            val data = when (searchType) {
+                SearchType.ALBUMS -> albums().value?.get(position)
+                SearchType.ARTISTS -> artists().value?.get(position)
+                SearchType.SONGS -> songs().value?.get(position)
+                null -> TODO("Implement new type properly")
+            }
+
+            intent.putExtra("data", data)
+        }
+
+        startActivity(intent)
     }
 }

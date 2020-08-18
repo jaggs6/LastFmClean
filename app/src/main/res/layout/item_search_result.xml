@@ -21,10 +21,10 @@
             tools:ignore="ContentDescription" />
 
         <TextView
+            android:textAlignment="center"
             android:id="@+id/cv_text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:ellipsize="end"
             android:maxLines="1" />
 
@@ -32,7 +32,7 @@
             android:id="@+id/cv_text_additional_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:textAlignment="center"
             android:ellipsize="end"
             android:maxLines="1"
             android:visibility="gone" />
@@ -41,7 +41,7 @@
             android:id="@+id/cv_text_listeners"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:textAlignment="center"
             android:ellipsize="end"
             android:maxLines="1"
             android:visibility="gone" />

@@ -6,4 +6,5 @@
     <string name="search_title">Search LastFM</string>
     <string name="headphone">🎧</string>
     <string name="microphone">🎙️</string>
+    <string name="empty_search">Type in the search box above to begin</string>
 </resources>

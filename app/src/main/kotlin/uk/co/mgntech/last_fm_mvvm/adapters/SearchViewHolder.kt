@@ -11,6 +11,6 @@ class SearchViewHolder(itemView: View, private val searchListener: OnSearchListe
     }
 
     override fun onClick(v: View?) {
-        searchListener.onSearchClick(adapterPosition)
+        searchListener.onSearchResultClick(adapterPosition)
     }
 }
