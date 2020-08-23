@@ -1,6 +1,7 @@
 package uk.co.mgntech.last_fm_mvvm.ui
 
 import androidx.lifecycle.ViewModel
+import io.reactivex.disposables.Disposable
 import uk.co.mgntech.last_fm_mvvm.models.SearchType
 import uk.co.mgntech.last_fm_mvvm.repositories.SearchRepository
 
@@ -16,9 +17,17 @@ class SearchViewModel : ViewModel() {
     fun albums() = _repository.albums()
     fun songs() = _repository.songs()
 
+    private val disposables = mutableListOf<Disposable>()
+
     fun setSearchTerm(searchTerm: String) {
-        _repository.searchApi(searchTerm, SearchType.ALBUMS, 1)
-        _repository.searchApi(searchTerm, SearchType.ARTISTS, 1)
-        _repository.searchApi(searchTerm, SearchType.SONGS, 1)
+        disposables.add(_repository.searchApi(searchTerm, SearchType.ALBUMS))
+        disposables.add(_repository.searchApi(searchTerm, SearchType.ARTISTS))
+        disposables.add(_repository.searchApi(searchTerm, SearchType.SONGS))
+    }
+
+    fun cancel() {
+        disposables.forEach {
+            it.dispose()
+        }
     }
 }

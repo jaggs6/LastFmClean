@@ -62,6 +62,7 @@ class SearchFragment : Fragment(), OnSearchListener {
                     recyclerAdapter.list = it
                 }
             })
+
             loading.observe(viewLifecycleOwner, Observer {
                 empty_search.visibility = View.GONE
                 pb_search.visibility = if (it) View.VISIBLE else View.GONE

@@ -1,5 +1,6 @@
 package uk.co.mgntech.last_fm_mvvm.repositories
 
+import io.reactivex.disposables.Disposable
 import uk.co.mgntech.last_fm_mvvm.models.SearchType
 import uk.co.mgntech.last_fm_mvvm.requests.SearchApiClient
 
@@ -19,7 +20,7 @@ class SearchRepository {
     fun songs() = _apiClient.songs
     fun artists() = _apiClient.artists
 
-    fun searchApi(query: String, type: SearchType, pageNumber: Int) {
-        _apiClient.searchApi(query, type, pageNumber)
+    fun searchApi(query: String, type: SearchType): Disposable {
+        return _apiClient.searchApi(query, type)
     }
 }

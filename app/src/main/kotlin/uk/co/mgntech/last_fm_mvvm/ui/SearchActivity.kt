@@ -37,6 +37,11 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
     }
 
+    override fun onPause() {
+        super.onPause()
+        searchViewModel.cancel()
+    }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
         search_view.clearFocus()
         searchViewModel.apply {

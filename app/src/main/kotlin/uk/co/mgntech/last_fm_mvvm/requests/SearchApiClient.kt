@@ -2,8 +2,9 @@ package uk.co.mgntech.last_fm_mvvm.requests
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import java.io.IOException
-import uk.co.mgntech.last_fm_mvvm.AppExecutors
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import uk.co.mgntech.last_fm_mvvm.models.Search
 import uk.co.mgntech.last_fm_mvvm.models.SearchType
 
@@ -11,6 +12,7 @@ class SearchApiClient {
 
     companion object {
         val instance = SearchApiClient()
+        private const val TAG = "SearchApiClient"
     }
 
     val artistsLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -21,58 +23,53 @@ class SearchApiClient {
     val albums: MutableLiveData<List<Search>> = MutableLiveData()
     val songs: MutableLiveData<List<Search>> = MutableLiveData()
 
-    fun searchApi(query: String, type: SearchType, pageNumber: Int) {
-        AppExecutors.instance.networkIO.submit(SearchResultsRunnable(query, type, pageNumber))
-    }
+    fun searchApi(query: String, type: SearchType): Disposable {
+        startLoading(type)
 
-    private class SearchResultsRunnable(
-        private val query: String,
-        private val type: SearchType,
-        private val pageNumber: Int
-    ) : Runnable {
-
-        override fun run() {
-            val call = when (type) {
-                SearchType.ALBUMS -> ServiceGenerator.lastFMApi.searchAlbum(query, pageNumber)
-                SearchType.ARTISTS -> ServiceGenerator.lastFMApi.searchArtist(query, pageNumber)
-                SearchType.SONGS -> ServiceGenerator.lastFMApi.searchSong(query, pageNumber)
-            }
-            val loading = when (type) {
-                SearchType.ALBUMS -> instance.albumsLoading
-                SearchType.ARTISTS -> instance.artistsLoading
-                SearchType.SONGS -> instance.songsLoading
-            }
-            val results = when (type) {
-                SearchType.ALBUMS -> instance.albums
-                SearchType.ARTISTS -> instance.artists
-                SearchType.SONGS -> instance.songs
-            }
-
-            loading.postValue(true)
-            val previousValue = results.value
-            if (pageNumber == 1) {
-                results.postValue(emptyList())
-            }
-            try {
-                val response = call.execute()
-                if (response.code() == 200) {
-                    val songsList = response.body()?.results()
-                    if (pageNumber == LastFMApi.START_PAGE) {
-                        results.postValue(songsList)
-                    } else {
-                        results.postValue(songsList?.let { previousValue?.plus(it) })
-                    }
-                } else {
-                    Log.e(TAG, "run:" + response.errorBody())
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            loading.postValue(false)
+        val searchFlowable = when (type) {
+            SearchType.ALBUMS -> ServiceGenerator.lastFMApi.searchAlbum(query)
+            SearchType.ARTISTS -> ServiceGenerator.lastFMApi.searchArtist(query)
+            SearchType.SONGS -> ServiceGenerator.lastFMApi.searchSong(query)
         }
 
-        companion object {
-            private const val TAG = "SearchSongRunnable"
+        return searchFlowable
+            .map { it.results() }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                updateResults(type, it)
+            }, {
+                stopLoading(type)
+                Log.w(TAG, "searchApi: ", it)
+            }, {
+                stopLoading(type)
+            })
+    }
+
+    private fun updateResults(
+        type: SearchType,
+        it: List<Search>?
+    ) {
+        when (type) {
+            SearchType.ALBUMS -> albums.postValue(it)
+            SearchType.ARTISTS -> artists.postValue(it)
+            SearchType.SONGS -> songs.postValue(it)
+        }
+    }
+
+    private fun startLoading(type: SearchType) {
+        when (type) {
+            SearchType.ALBUMS -> albumsLoading.postValue(true)
+            SearchType.ARTISTS -> artistsLoading.postValue(true)
+            SearchType.SONGS -> songsLoading.postValue(true)
+        }
+    }
+
+    private fun stopLoading(type: SearchType) {
+        when (type) {
+            SearchType.ALBUMS -> albumsLoading.postValue(false)
+            SearchType.ARTISTS -> artistsLoading.postValue(false)
+            SearchType.SONGS -> songsLoading.postValue(false)
         }
     }
 }
