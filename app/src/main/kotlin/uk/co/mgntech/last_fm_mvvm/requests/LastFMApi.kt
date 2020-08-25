@@ -3,7 +3,7 @@ package uk.co.mgntech.last_fm_mvvm.requests
 import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Query
-import uk.co.mgntech.last_fm_mvvm.models.SearchResultsResponse
+import uk.co.mgntech.last_fm_mvvm.models.SearchResponse
 import uk.co.mgntech.last_fm_mvvm.utils.Constants
 
 interface LastFMApi {
@@ -33,7 +33,7 @@ interface LastFMApi {
         @Query(API_KEY) key: String = Constants.API_KEY,
         @Query(FORMAT) format: String = FORMAT_JSON,
         @Query(METHOD) method: String = SEARCH_ARTIST
-    ): Flowable<SearchResultsResponse>
+    ): Flowable<SearchResponse>
 
     @GET(BASE_PATH)
     fun searchAlbum(
@@ -42,7 +42,7 @@ interface LastFMApi {
         @Query(API_KEY) key: String = Constants.API_KEY,
         @Query(FORMAT) format: String = FORMAT_JSON,
         @Query(METHOD) method: String = SEARCH_ALBUM
-    ): Flowable<SearchResultsResponse>
+    ): Flowable<SearchResponse>
 
     @GET(BASE_PATH)
     fun searchSong(
@@ -51,5 +51,5 @@ interface LastFMApi {
         @Query(API_KEY) key: String = Constants.API_KEY,
         @Query(FORMAT) format: String = FORMAT_JSON,
         @Query(METHOD) method: String = SEARCH_TRACK
-    ): Flowable<SearchResultsResponse>
+    ): Flowable<SearchResponse>
 }

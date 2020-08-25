@@ -4,23 +4,21 @@ import io.reactivex.disposables.Disposable
 import uk.co.mgntech.last_fm_mvvm.models.SearchType
 import uk.co.mgntech.last_fm_mvvm.requests.SearchApiClient
 
-class SearchRepository {
+class SearchRepository(private val api_client: SearchApiClient) {
 
     companion object {
-        val instance = SearchRepository()
+        val instance = SearchRepository(SearchApiClient.instance)
     }
 
-    private val _apiClient = SearchApiClient.instance
+    fun artistsLoading() = api_client.artistsLoading
+    fun albumsLoading() = api_client.albumsLoading
+    fun songsLoading() = api_client.songsLoading
 
-    fun artistsLoading() = _apiClient.artistsLoading
-    fun albumsLoading() = _apiClient.albumsLoading
-    fun songsLoading() = _apiClient.songsLoading
-
-    fun albums() = _apiClient.albums
-    fun songs() = _apiClient.songs
-    fun artists() = _apiClient.artists
+    fun albums() = api_client.albums
+    fun songs() = api_client.songs
+    fun artists() = api_client.artists
 
     fun searchApi(query: String, type: SearchType): Disposable {
-        return _apiClient.searchApi(query, type)
+        return api_client.searchApi(query, type)
     }
 }

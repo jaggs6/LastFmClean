@@ -13,13 +13,13 @@ data class Search(
     @SerializedName("listeners")
     val listeners: String?,
     @SerializedName("image")
-    private val images: List<Image>
+    private val images: List<Image>?
 ) : Parcelable {
     fun imageLarge(): String? {
-        return images.findLast { it.size == "large" }?.url
+        return images?.findLast { it.size == "large" }?.url
     }
 
     fun imageXLarge(): String? {
-        return images.findLast { it.size == "extralarge" }?.url
+        return images?.findLast { it.size == "extralarge" }?.url
     }
 }

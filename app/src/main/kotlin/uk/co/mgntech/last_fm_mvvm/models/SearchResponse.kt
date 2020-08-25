@@ -2,7 +2,7 @@ package uk.co.mgntech.last_fm_mvvm.models
 
 import com.google.gson.annotations.SerializedName
 
-data class SearchResultsResponse(
+data class SearchResponse(
     @SerializedName("results")
     private val results: SearchResults
 ) {
@@ -14,28 +14,28 @@ data class SearchResultsResponse(
             else -> null
         }
     }
+
+    data class SearchResults(
+        @SerializedName("artistmatches")
+        val artistMatches: ArtistMatches?,
+        @SerializedName("albummatches")
+        val albumMatches: AlbumMatches?,
+        @SerializedName("trackmatches")
+        val songMatches: SongMatches?
+    )
+
+    data class ArtistMatches(
+        @SerializedName("artist")
+        val results: List<Search>
+    )
+
+    data class AlbumMatches(
+        @SerializedName("album")
+        val results: List<Search>
+    )
+
+    data class SongMatches(
+        @SerializedName("track")
+        val results: List<Search>
+    )
 }
-
-data class SearchResults(
-    @SerializedName("artistmatches")
-    val artistMatches: ArtistMatches?,
-    @SerializedName("albummatches")
-    val albumMatches: AlbumMatches?,
-    @SerializedName("trackmatches")
-    val songMatches: SongMatches?
-)
-
-data class ArtistMatches(
-    @SerializedName("artist")
-    val results: List<Search>
-)
-
-data class AlbumMatches(
-    @SerializedName("album")
-    val results: List<Search>
-)
-
-data class SongMatches(
-    @SerializedName("track")
-    val results: List<Search>
-)

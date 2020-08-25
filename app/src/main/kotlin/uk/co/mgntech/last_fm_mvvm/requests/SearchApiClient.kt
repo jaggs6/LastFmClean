@@ -1,6 +1,7 @@
 package uk.co.mgntech.last_fm_mvvm.requests
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -8,10 +9,10 @@ import io.reactivex.schedulers.Schedulers
 import uk.co.mgntech.last_fm_mvvm.models.Search
 import uk.co.mgntech.last_fm_mvvm.models.SearchType
 
-class SearchApiClient {
+class SearchApiClient(private val lastFMApi: LastFMApi) {
 
     companion object {
-        val instance = SearchApiClient()
+        val instance = SearchApiClient(ServiceGenerator.lastFMApi)
         private const val TAG = "SearchApiClient"
     }
 
@@ -27,9 +28,9 @@ class SearchApiClient {
         startLoading(type)
 
         val searchFlowable = when (type) {
-            SearchType.ALBUMS -> ServiceGenerator.lastFMApi.searchAlbum(query)
-            SearchType.ARTISTS -> ServiceGenerator.lastFMApi.searchArtist(query)
-            SearchType.SONGS -> ServiceGenerator.lastFMApi.searchSong(query)
+            SearchType.ALBUMS -> lastFMApi.searchAlbum(query)
+            SearchType.ARTISTS -> lastFMApi.searchArtist(query)
+            SearchType.SONGS -> lastFMApi.searchSong(query)
         }
 
         return searchFlowable
@@ -46,7 +47,8 @@ class SearchApiClient {
             })
     }
 
-    private fun updateResults(
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun updateResults(
         type: SearchType,
         it: List<Search>?
     ) {
@@ -57,7 +59,8 @@ class SearchApiClient {
         }
     }
 
-    private fun startLoading(type: SearchType) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun startLoading(type: SearchType) {
         when (type) {
             SearchType.ALBUMS -> albumsLoading.postValue(true)
             SearchType.ARTISTS -> artistsLoading.postValue(true)
@@ -65,7 +68,8 @@ class SearchApiClient {
         }
     }
 
-    private fun stopLoading(type: SearchType) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    fun stopLoading(type: SearchType) {
         when (type) {
             SearchType.ALBUMS -> albumsLoading.postValue(false)
             SearchType.ARTISTS -> artistsLoading.postValue(false)
