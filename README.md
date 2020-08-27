@@ -6,6 +6,7 @@ Libraries used
 - RxJava & RxKotlin
 - Retrofit
 - Gson
+- Glide
 
 Testing
 - MockK
